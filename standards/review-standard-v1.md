@@ -15,12 +15,9 @@ submitter never approves their own pull request.
 
 Each repository declares one routine-change approval profile:
 
-- `peer-agents`: an organization-owned repository uses a dedicated team of
-  exactly three agent accounts. For an eligible agent-authored pull request,
-  the other two team members approve the exact current head. A trusted,
-  least-privilege GitHub App verifies the identities and revision while the
-  native ruleset synchronously enforces two approvals from that team. Agent
-  reviews are authoritative under the shared review contract.
+- `peer-agents`: at least two eligible non-author agent code owners approve the
+  exact current head. Agent reviews are authoritative under the shared review
+  contract, but this profile alone does not authorize automatic merge.
 - `human`: at least one eligible non-author human code owner approves.
 
 Automation that does not submit a formal review under an eligible reviewer
@@ -33,9 +30,9 @@ owner, regardless of the routine profile. At minimum these include ownership,
 review enforcement, CI workflow, credential, and deployment-control files.
 
 If the sole human owner authors a protected-path change, the code-owner gate has
-no eligible reviewer. A deliberate administrator bypass is permitted only when
-the pull request records the reason, verification evidence, and exact head. It
-must remain exceptional and auditable.
+no eligible reviewer. The repository must require an agent to author that
+change for human review, add another human owner, or explicitly document an
+auditable administrator-bypass exception. Agents never exercise that bypass.
 
 ## Pull-request lifecycle
 
@@ -91,10 +88,13 @@ The default branch is protected by a ruleset that:
 - blocks agents, repository helpers, and the quorum App from bypassing or
   directly merging.
 
-For `peer-agents`, the protected automatic path also requires a successful
-head-pinned trusted quorum check and has no bypass actors. GitHub, not an agent
-or repository helper, performs the merge after the complete gate is satisfied.
-Ineligible pull requests remain on the repository's documented maintainer path.
+For `peer-agents`, protected automatic merge is a separate, stricter path. It
+requires an organization-owned repository; a dedicated team containing exactly
+three agent accounts; two native, team-scoped approvals; and a successful
+head-pinned trusted quorum check. Its ruleset has no bypass actors. GitHub, not
+an agent or repository helper, performs the merge after the complete gate is
+satisfied. A user-owned repository or any repository missing one prerequisite
+remains on its documented maintainer path.
 Nobody approves or directly merges their own pull request. After merge,
 repository-specific cleanup must remove only the verified feature branch and
 synchronize the local and fork default branches.

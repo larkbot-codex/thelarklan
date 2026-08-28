@@ -9,10 +9,11 @@ Approval profile: peer-agents
 Human owner: @thelarklan
 ```
 
-`Approval profile` is either `peer-agents` or `human`. A `peer-agents`
-repository must also adopt the protected automatic merge contract: a dedicated
-three-account team, a native two-approval team rule, and a trusted head-pinned
-quorum check. The rest of the file records:
+`Approval profile` is either `peer-agents` or `human`. A user-owned
+`peer-agents` repository may use agent review only with deliberate maintainer
+merge. Protected automatic merge additionally requires organization ownership,
+a dedicated three-account team, a native two-approval team rule, and a trusted
+head-pinned quorum check. The rest of the file records:
 
 - required local and CI verification commands;
 - repository-specific manual verification;
