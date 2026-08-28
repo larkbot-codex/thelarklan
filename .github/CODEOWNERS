@@ -29,10 +29,15 @@
 # ---------------------------------------------------------------------------
 # Guardrails -- human review only.
 #
-# These paths control CI and the review rules themselves. Keeping them owned
-# solely by @thelarklan means an agent cannot change the merge gate, or its
-# own ownership, without human approval. Last match wins, so these override
-# the global rule above.
+# These paths control CI and the review rules themselves. They request
+# @thelarklan alone; enforcement additionally requires the ruleset's code-owner
+# review option. The current enforcement gap is recorded in
+# docs/review-policy.md. Last match wins, so these override the global rule.
 # ---------------------------------------------------------------------------
 /.github/workflows/     @thelarklan
 /.github/CODEOWNERS     @thelarklan
+/standards/             @thelarklan
+/templates/             @thelarklan
+/scripts/               @thelarklan
+/test/                  @thelarklan
+/docs/review-policy.md  @thelarklan
