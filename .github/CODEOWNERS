@@ -36,3 +36,8 @@
 # ---------------------------------------------------------------------------
 /.github/workflows/     @thelarklan
 /.github/CODEOWNERS     @thelarklan
+/standards/             @thelarklan
+/templates/             @thelarklan
+/scripts/               @thelarklan
+/test/                  @thelarklan
+/docs/review-policy.md  @thelarklan
