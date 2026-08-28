@@ -6,7 +6,7 @@ during each adoption pull request and periodically afterward.
 
 | Repository | Standard | Approval profile | Enforcement | Exceptions | State |
 | --- | --- | --- | --- | --- | --- |
-| `thelarklan/thelarklan` | `review-standard-v2` | `peer-agents` | Personal; two approvals and trusted check; code-owner review and v2 App reconciliation pending | Protected-approval deployment gap and personal reviewer-identity limitation recorded locally | v2 source upgrade |
+| `thelarklan/thelarklan` | `review-standard-v2` | `peer-agents` | Personal; two approvals and trusted check; code-owner review and v2 App reconciliation pending | Protected-approval deployment gap and personal reviewer-identity limitation recorded locally | Adopting via PR #5 (v2 source upgrade) |
 | `thelarklan/dev-tools` | `review-standard-v2` | `peer-agents` | Personal; two approvals and trusted check; code-owner review, Jenkins context, and v2 App reconciliation pending | Protected-approval and Jenkins deployment gaps; personal reviewer-identity limitation; `pr-cleanup` extension | Pilot via PR #23 |
 | `thelarklan/wsl-tools` | Not adopted | Not declared | User-owned; two approvals, trusted check, and three CI contexts; code-owner review disabled | None recorded | Wave 2 planned |
 | `thelarklan/podman-tools` | Not adopted | Not declared | User-owned; two approvals and trusted check; code-owner review disabled; no repository CI required | None recorded | Wave 2 planned |

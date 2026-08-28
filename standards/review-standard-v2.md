@@ -29,8 +29,10 @@ automatic merge until an eligible agent reauthors the change.
 Protected and explicitly high-risk changes require approval from the human
 owner in addition to the routine profile. At minimum these include ownership,
 review policy and enforcement, CI and local verification enforcement, trusted
-review or merge automation, credentials, and deployment controls. Consumer
-repositories extend this list through local `CODEOWNERS` rules.
+review or merge automation, credentials, and deployment controls. The consumer
+repository's base-branch `CODEOWNERS` is the authoritative local protected-path
+list and may extend this minimum. The trusted App's private map must cover the
+same protected rules and may be stricter, never weaker.
 
 The sole human owner must not author a protected change because they cannot
 approve their own pull request. An agent must author it for human review, or a
@@ -101,9 +103,11 @@ the open, non-draft pull request, complete changed-file list, exact head,
 default base, author, and complete latest decisive review state. It classifies
 paths against a private per-repository map of exact paths and directory
 prefixes. It requires the rotating two-agent quorum, plus the configured human
-owner's exact-head approval for a protected change. It rejects a human-owner
-approval on a routine bot-authored change. The native code-owner rule supplies
-an additional protected-path gate. The App then re-reads the head again.
+owner's exact-head approval for a protected change. If a human-owner approval
+exists on a routine bot-authored change, the App publishes failure and disables
+auto-merge until that approval is dismissed; it does not merely omit the review
+from the quorum count. The native code-owner rule supplies an additional
+protected-path gate. The App then re-reads the head again.
 
 The App may have metadata read, pull-request read/write, and checks read/write
 permissions solely to inspect files and reviews, publish or revoke its check,

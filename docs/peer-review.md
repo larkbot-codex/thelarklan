@@ -76,19 +76,26 @@ the same silent path as one lacking access.
 
 ## The guardrail paths
 
-Two paths override the global rule (last match wins) and are owned by the
-human alone:
+Seven path rules override the global rule (last match wins) and are owned by
+the human alone. The base branch's `.github/CODEOWNERS` is the authoritative
+local list:
 
 ```
 /.github/workflows/     @thelarklan
 /.github/CODEOWNERS     @thelarklan
+/standards/             @thelarklan
+/templates/             @thelarklan
+/scripts/               @thelarklan
+/test/                  @thelarklan
+/docs/review-policy.md  @thelarklan
 ```
 
-These are the paths that control the merge gate itself. CI defines what
-"passing" means; CODEOWNERS defines who gets to approve. An agent that
-could change either could widen its own permissions in a single PR — and
-with auto-merge enabled, do it without anyone watching. Keeping them
-human-owned means that particular move always stops for a person.
+These paths define the standard, its distribution and tests, CI, ownership,
+and the repository's adoption and exception policy. An agent that could change
+them without owner approval could weaken the review contract or its enforcement
+in a single pull request. Keeping them human-owned makes that move stop for a
+person. The trusted App's private protected-path map must match these base-branch
+rules; disagreement is a fail-closed audit finding.
 
 ## The merge gate
 
@@ -131,11 +138,11 @@ and both a routine and protected acceptance PR pass.
 ## Known sharp edges
 
 **A guardrail PR opened by the human has no eligible approver.** On
-`/.github/workflows/` or `/.github/CODEOWNERS`, `@thelarklan` is the only
-code owner — and is excluded as the author. "Require review from Code
-Owners" cannot be satisfied by any allowed route. This is a consequence of
-author-exclusion meeting a single-owner path, not a reason to bypass it. A
-guardrail PR must be agent-authored so the human can approve it.
+any guardrail path listed in the base branch's `.github/CODEOWNERS`,
+`@thelarklan` is the only code owner — and is excluded as the author. "Require
+review from Code Owners" cannot be satisfied by any allowed route. This is a
+consequence of author-exclusion meeting a single-owner path, not a reason to
+bypass it. A guardrail PR must be agent-authored so the human can approve it.
 
 **Quorum depends on who opened the PR.** With four owners, an agent-opened
 PR leaves three eligible approvers for two required approvals, which has

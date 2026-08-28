@@ -24,7 +24,11 @@ automatic merging must remain unarmed.
 The repository remains `Adopting`, not `Adopted`, until the owner enables
 code-owner review, accepts the App permission update, installs the private
 protected-path map, and verifies routine and protected automatic-merge
-scenarios.
+scenarios. That acceptance test must confirm that
+`enablePullRequestAutoMerge` succeeds with exactly metadata read, pull-request
+read/write, and checks read/write; that GitHub attributes and performs the
+resulting squash merge; and that the App has no contents-write or direct-merge
+capability.
 
 ## Verification
 
@@ -72,10 +76,11 @@ branch matches upstream.
   slots to those accounts; App event processing and reconciliation are not an
   atomic GitHub review rule.
 - Compensating control: the App uses stable IDs and a private protected-path
-  map, requires human exact-head approval for protected changes, rejects human
-  approval on routine bot changes, re-reads the head and decisive reviews before
-  arming auto-merge, revokes success and disables auto-merge when quorum is
-  lost, and has no contents-write, administration, or direct-merge permission.
+  map, requires human exact-head approval for protected changes, publishes
+  failure and disables auto-merge when human approval exists on a routine bot
+  change, re-reads the head and decisive reviews before arming auto-merge,
+  revokes success and disables auto-merge when quorum is lost, and has no
+  contents-write, administration, or direct-merge permission.
 - Owner: `@thelarklan`.
 - Review date: 2026-11-28.
 
