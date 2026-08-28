@@ -17,6 +17,7 @@ rules, and GitHub auto-merge. The rest of the file records:
 - required local and CI verification commands;
 - repository-specific manual verification;
 - protected or high-risk paths beyond the standard minimum;
+- the corresponding private App protected-path configuration and its audit;
 - merge and post-merge cleanup behavior; and
 - exceptions in the format required by the standard.
 

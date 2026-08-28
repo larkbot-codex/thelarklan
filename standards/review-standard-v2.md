@@ -97,20 +97,33 @@ code, never checks out or executes pull-request code, and fails closed on API,
 identity, state, pagination, or revision ambiguity.
 
 Immediately before publishing success and arming auto-merge, the App re-reads
-the open, non-draft pull request, exact head, default base, author, and complete
-latest decisive review state. It requires the rotating two-agent quorum and,
-for protected changes, leaves the native code-owner rule to require the human
-approval. It then re-reads the head again. The App may have metadata read,
-pull-request read/write, and checks read/write permissions solely to inspect
-reviews, publish or revoke its check, and enable or disable auto-merge. It must
-not have contents write, administration, workflow, secrets, deployment, or
-ruleset-bypass permission and must never call a direct-merge endpoint.
+the open, non-draft pull request, complete changed-file list, exact head,
+default base, author, and complete latest decisive review state. It classifies
+paths against a private per-repository map of exact paths and directory
+prefixes. It requires the rotating two-agent quorum, plus the configured human
+owner's exact-head approval for a protected change. It rejects a human-owner
+approval on a routine bot-authored change. The native code-owner rule supplies
+an additional protected-path gate. The App then re-reads the head again.
+
+The App may have metadata read, pull-request read/write, and checks read/write
+permissions solely to inspect files and reviews, publish or revoke its check,
+and enable or disable auto-merge. It must not have contents write,
+administration, workflow, secrets, deployment, or ruleset-bypass permission and
+must never call a direct-merge endpoint.
 
 The App re-evaluates relevant pull-request and review state through authenticated
 events or a polling interval of at most one minute, with periodic reconciliation
 as the fallback. A missing or changed quorum replaces success with failure and
 disables auto-merge. A new commit naturally has no trusted success for its new
 head. GitHub remains the only component that merges.
+
+The stable account IDs and protected-path map live in mode-restricted private
+deployment configuration. Every installed repository has an explicit non-empty
+entry and an auto-merge rollout switch. A disabled repository may receive the
+trusted check but no auto-merge mutation. Missing configuration, unsafe
+patterns, file-list failure, or drift between the private map and protected
+base-branch policy fails closed and is an audit finding. Pull-request-controlled
+files cannot weaken the gate that applies to that pull request.
 
 A personal repository cannot synchronously restrict native approval slots to
 specific users. Event delivery and reconciliation therefore leave a bounded

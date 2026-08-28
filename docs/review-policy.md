@@ -17,12 +17,14 @@ review dismissal, latest-push approval, resolved conversations, strict base
 updates, squash-only merge, and the `bot-review-quorum` check. Code-owner review
 is disabled. Repository auto-merge is enabled, but the trusted App has not yet
 been granted the narrowly scoped pull-request write permission or deployed with
-v2 auto-merge reconciliation. Human-only `CODEOWNERS` entries therefore request
-review but do not yet gate merge, and automatic merging must remain unarmed.
+v2 auto-merge reconciliation and its private protected-path map. Human-only
+`CODEOWNERS` entries therefore request review but do not yet gate merge, and
+automatic merging must remain unarmed.
 
 The repository remains `Adopting`, not `Adopted`, until the owner enables
-code-owner review, accepts the App permission update, and verifies both routine
-and protected automatic-merge scenarios.
+code-owner review, accepts the App permission update, installs the private
+protected-path map, and verifies routine and protected automatic-merge
+scenarios.
 
 ## Verification
 
@@ -69,9 +71,10 @@ branch matches upstream.
 - Limitation: a personal repository cannot synchronously bind native approval
   slots to those accounts; App event processing and reconciliation are not an
   atomic GitHub review rule.
-- Compensating control: the App re-reads the exact head and complete decisive
-  review state immediately before arming auto-merge, publishes a required
-  head-pinned check, revokes success and disables auto-merge when quorum is
+- Compensating control: the App uses stable IDs and a private protected-path
+  map, requires human exact-head approval for protected changes, rejects human
+  approval on routine bot changes, re-reads the head and decisive reviews before
+  arming auto-merge, revokes success and disables auto-merge when quorum is
   lost, and has no contents-write, administration, or direct-merge permission.
 - Owner: `@thelarklan`.
 - Review date: 2026-11-28.
