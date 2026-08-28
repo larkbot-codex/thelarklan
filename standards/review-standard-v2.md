@@ -106,8 +106,9 @@ reviews, publish or revoke its check, and enable or disable auto-merge. It must
 not have contents write, administration, workflow, secrets, deployment, or
 ruleset-bypass permission and must never call a direct-merge endpoint.
 
-The App re-evaluates on pull-request, review, and check events and by periodic
-reconciliation. A missing or changed quorum replaces success with failure and
+The App re-evaluates relevant pull-request and review state through authenticated
+events or a polling interval of at most one minute, with periodic reconciliation
+as the fallback. A missing or changed quorum replaces success with failure and
 disables auto-merge. A new commit naturally has no trusted success for its new
 head. GitHub remains the only component that merges.
 
