@@ -19,6 +19,7 @@ source_template=$source_root/templates/pull_request_template.md
 target_template=$target/.github/pull_request_template.md
 target_policy=$target/docs/review-policy.md
 target_owners=$target/.github/CODEOWNERS
+human_owner=
 
 [[ -d $target ]] || { printf 'Target repository does not exist: %s\n' "$target" >&2; exit 1; }
 [[ -f $source_template ]] || { printf 'Canonical template is missing: %s\n' "$source_template" >&2; exit 1; }
@@ -33,10 +34,26 @@ grep -Eq '^Approval profile: (peer-agents|human)[[:space:]]*$' "$target_policy" 
     printf 'Consumer policy has no valid approval profile: %s\n' "$target_policy" >&2
     exit 1
 }
-grep -Eq '^Human owner: @[A-Za-z0-9-]+$' "$target_policy" || {
+human_owner=$(sed -nE 's/^Human owner: (@[A-Za-z0-9-]+)[[:space:]]*$/\1/p' "$target_policy")
+if [[ -z $human_owner || $human_owner == *$'\n'* ]]; then
     printf 'Consumer policy has no human owner: %s\n' "$target_policy" >&2
     exit 1
-}
+fi
+if ! awk -v owner="$human_owner" '
+    /^[[:space:]]*(#|$)/ { next }
+    {
+        for (field = 2; field <= NF; field++) {
+            if ($field == owner) {
+                found = 1
+            }
+        }
+    }
+    END { exit(found ? 0 : 1) }
+' "$target_owners"; then
+    printf 'Consumer CODEOWNERS has no effective rule naming human owner %s: %s\n' \
+        "$human_owner" "$target_owners" >&2
+    exit 1
+fi
 
 if [[ $mode == check ]]; then
     if [[ ! -f $target_template ]] || ! cmp -s -- "$source_template" "$target_template"; then

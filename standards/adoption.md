@@ -39,9 +39,12 @@ Use `--check` in CI or audits to detect drift without changing the consumer:
 bash scripts/sync-review-standard.sh --check /path/to/consumer
 ```
 
-The check also validates the adoption declarations, `CODEOWNERS`, and local
-policy. Synchronization changes only the managed pull-request template; it does
-not overwrite repository-specific policy or ownership.
+The check validates the adoption declarations, requires the local policy and
+`CODEOWNERS`, and confirms that an effective ownership rule names the declared
+human owner. It cannot verify that account's repository access or the live
+ruleset; audit those controls separately. Synchronization changes only the
+managed pull-request template; it does not overwrite repository-specific policy
+or ownership.
 
 Adopt upgrades through a focused pull request. Update the managed template,
 review the new normative contract, update the declaration, document any new

@@ -9,6 +9,17 @@ changes require two eligible non-author agent approvals. Changes to
 `/.github/CODEOWNERS`, `/.github/workflows/`, or the normative standard and its
 distribution tooling require approval from `@thelarklan`.
 
+## Current enforcement
+
+The ruleset audit on 2026-08-28 found an active two-approval gate with stale
+review dismissal, latest-push approval, resolved conversations, strict base
+updates, squash-only merge, and the `bot-review-quorum` check. Code-owner review
+is disabled, so the human-only `CODEOWNERS` entries request review but do not
+currently gate merge.
+
+The repository remains `Adopting`, not `Adopted`, until the maintainer enables
+code-owner review and verifies it against a protected-path pull request.
+
 ## Verification
 
 Run:
@@ -36,7 +47,16 @@ branch matches upstream.
 
 ## Exceptions
 
-The sole human code owner cannot approve their own guardrail change, and the
-active ruleset has no working bypass. Until another human owner exists, a
-guardrail pull request must be agent-authored so `@thelarklan` remains eligible
-to approve it. No exception authorizes an agent bypass.
+- Rule: protected and high-risk paths require approval from the human owner.
+- Temporary exception: the active ruleset does not require code-owner review.
+- Justification: the enforcement setting remains to be enabled during initial
+  standard adoption.
+- Compensating control: protected-path pull requests remain agent-authored for
+  eligible human review; the human owner performs the deliberate merge; agents
+  never merge or use administrator bypass.
+- Owner: `@thelarklan`.
+- Review date: 2026-09-04.
+
+The sole human code owner cannot approve their own guardrail change. Until
+another human owner exists, a guardrail pull request must be agent-authored so
+`@thelarklan` remains eligible to approve it.
